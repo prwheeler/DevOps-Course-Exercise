@@ -90,14 +90,12 @@ class Item:
         self.desc = desc
         self.due = Item._format_due_date(due, self.status)
 
-
     @classmethod
     def from_card(cls, card):
         """
         Initialize an Item from an instance of a trello card
         """
         return cls(card['id'], card['name'], card['idList'], card['desc'], card['due'])
-
 
     @classmethod
     def _status_from_list_id(cls, list_id):
@@ -115,6 +113,6 @@ class Item:
         """
         if due is None or status == 'Completed':
             return ''
-        else:
-            return datetime.fromisoformat(due.replace('Z', '')).strftime('%d/%m/%Y')
+        
+        return datetime.fromisoformat(due.replace('Z', '')).strftime('%d/%m/%Y')
 
