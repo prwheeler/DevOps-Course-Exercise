@@ -81,7 +81,7 @@ def _iso_date_from_eu_date(eudate):
     If eudate is a valid euro date return it as an ISO format for trello.
 
     Args:
-        eudate: a date that should be in european format (dd/mm/yyyy) or e
+        eudate: a date that should be in european format (dd/mm/yyyy)
     Returns:
         ISO date: ISO format date or '' if eudate can't be converted
     """
