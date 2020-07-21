@@ -42,7 +42,7 @@ def add_item(title, desc, due):
     Args:
         title: The title of the item.
         desc:  An optional item description.
-        due:   An optional due date.
+        due:   An optional due date in european DD/MM/YYYY format 
     """
 
     url = f'{BASE_URL}/cards' 
@@ -51,15 +51,12 @@ def add_item(title, desc, due):
         'idList': TODO_LIST_ID,
         'name':   title,
         'desc':   desc,
-        'due':    due
+        'due':    _iso_date_from_eu_date(due)
     }}
 
     log.info(f'POST: url={url}')
     response = requests.post(url, params)
     log.info(f'POST: status={response.status_code}')
-
-    print(response.json())
-
 
 def complete_item(id):
     """
@@ -79,7 +76,19 @@ def complete_item(id):
     response = requests.put(url, params)
     log.info(f'PUT: status={response.status_code}')
 
-    print(response.json())
+def _iso_date_from_eu_date(eudate):
+    """
+    If eudate is a valid euro date return it as an ISO format for trello.
+
+    Args:
+        eudate: a date that should be in european format (dd/mm/yyyy) or e
+    Returns:
+        ISO date: ISO format date or '' if eudate can't be converted
+    """
+    try:
+        return datetime.strptime(eudate, '%d/%m/%Y').isoformat()
+    except ValueError:
+        return ''    
 
 
 class Item:
